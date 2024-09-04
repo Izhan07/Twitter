@@ -347,6 +347,26 @@ const getUserCurrentProfile = asyncHandler(async(req, res)=>{
         new ApiResponse(200, channel[0], "Channel fetched successfully")
     )
 })
+const searchUser = asyncHandler(async(req, res)=>{
+    const {username} = req.body
+    console.log(username)
+    if(username === ""){
+        throw new ApiError(404, "Username is required")
+    }
+    const user = await User.findOne({
+        username
+    }
+      
+    ).select("-password -refreshToken -email")
+    if(!user){
+        throw new ApiError(400, "No userfound")
+    }
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200, user, "userFound Successfully")
+    )
+})
 
 
 
@@ -362,5 +382,6 @@ export {
     updateUserAvatar,
     updateCoverImage,
     getUserCurrentProfile,
+    searchUser
 
 }
