@@ -72,9 +72,7 @@ const getTweetComments = asyncHandler(async(req, res)=>{
             }
         }
     ])
-    if(!comments?.length){
-        throw new ApiError(500, " Something went wrong while getting comments")
-    }
+   
     return res
     .status(200)
     .json(
