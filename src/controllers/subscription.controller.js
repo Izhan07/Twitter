@@ -25,15 +25,25 @@ const toggleSubscribe = asyncHandler(async(req, res)=>{
     if (!isValidObjectId(req.user._id) || !isValidObjectId(accountUser._id)) {
         throw new ApiError(400, "Invalid ObjectId format");
     }
-    const subscribed = await Subscription.create({
+    const subscribedCheck = await Subscription.findOne({
         subscriber: req.user._id,
         account: accountUser._id
     })
-    return res
-    .status(200)
-    .json(
-        new ApiResponse(200, subscribed, "Account subscribed successfully")
-    )
+    if(subscribedCheck?._id){
+          await Subscription.findByIdAndDelete(subscribedCheck?._id)
+          return res.status(200).json(new ApiResponse(200, {},"Account Unsubscribed successfully"))
+    }else{
+        const subscribed = await Subscription.create({
+            subscriber: req.user._id,
+            account: accountUser._id
+        })
+        return res
+        .status(200)
+        .json(
+            new ApiResponse(200, subscribed, "Account subscribed successfully")
+        )
+    }
+   
 })
 
 const getUserSubscriber = asyncHandler(async(req, res)=>{
@@ -88,7 +98,7 @@ const getUserFollowings = asyncHandler(async(req, res)=>{
     return res
     .status(200)
     .json(
-        new ApiResponse(200, follower, "Followings fetched Successfully" )
+        new ApiResponse(200, followed, "Followings fetched Successfully" )
     )
 })
 

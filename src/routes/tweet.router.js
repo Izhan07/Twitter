@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-import { createTweet, deleteTweet, getAllTweets, getFollowingTweets, getUserTweets, updateTweet } from "../controllers/tweet.controller.js";
+import { createTweet, deleteTweet, getAllTweets, getFollowingTweets, getOwnerTweets, getUserTweets, updateTweet } from "../controllers/tweet.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { getSubscribedChannels } from "../middlewares/subscriber.middleware.js";
 
@@ -28,4 +28,6 @@ router.route("/:tweetId").patch(
 router.route("/del/:tweetId").delete(deleteTweet)
 router.route("/tweets").get(getAllTweets)
 router.route("/fellowTweets/:accountId").get(getSubscribedChannels, getFollowingTweets)
+router.route("/ownerTweets").get(getOwnerTweets)
+
 export default router

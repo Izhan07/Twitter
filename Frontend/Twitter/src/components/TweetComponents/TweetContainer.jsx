@@ -1,8 +1,8 @@
 import React from "react";
-import "./components.css"
+
 import Tweetlike from "./Tweetlike.jsx"
-import PostComment from "./Addcomment.jsx";
-import GetTweetComments from "./GetTweetComments.jsx";
+import PostComment from "../CommentComponents/Addcomment.jsx";
+import GetTweetComments from "../CommentComponents/GetTweetComments.jsx";
 
 
 function TweetContainer({tweet}){
@@ -21,7 +21,7 @@ function TweetContainer({tweet}){
                 <div>
                     {tweet.content}
                 </div>
-                <div>{tweet.tweetImage}</div>
+                <div><img src={tweet.tweetImage}/></div>
             </div> : <div>{tweet.content}</div>
         }
         <div>

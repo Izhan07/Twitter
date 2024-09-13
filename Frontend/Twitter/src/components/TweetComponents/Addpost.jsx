@@ -1,22 +1,33 @@
 import React from "react";
-import Input from "./Input";
+import Input from "../Input";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function Addpost(){
     const {handleSubmit, register} = useForm() 
-    const navigate = useNavigate()
-    const userData = useSelector((state)=> state.auth.userData)
+  
 
     const addpost = async(data)=>{
       try {
-          const response = fetch(`http://localhost:8000/api/v1/tweets/`,{
+        const token = localStorage.getItem("accessToken")
+        if(!token){
+            console.error("No token found in localStorage")
+            return;
+        }
+        const formData = new FormData()
+        formData.append("content", data.content)
+        if(data.tweetImage.length > 0){
+            formData.append("tweetImage", data.tweetImage[0])
+        }
+
+          const response = await fetch(`http://localhost:8000/api/v1/tweets/`,{
               method: "POST",
               headers:{
-                  "Content-Type": "application/json"
+                Authorization: `Bearer${token}`,
+                 
               },
-              body: JSON.stringify(data)
+              body: formData,
           })
           if(response.ok){
               const tweet = await response.json()

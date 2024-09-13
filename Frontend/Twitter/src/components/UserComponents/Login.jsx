@@ -2,9 +2,9 @@ import React, {useState} from "react"
 import {useNavigate, Link} from "react-router-dom"
 import {useDispatch} from "react-redux"
 import {useForm} from "react-hook-form"
-import {login as authlogin} from "../store/auth.js"
-import Input from "./Input.jsx"
-import "./components.css"
+import {login as authlogin} from "../../store/auth.js"
+import Input from "../Input.jsx"
+
 
  function Login (){
     const dispatch = useDispatch()
@@ -21,12 +21,14 @@ import "./components.css"
          body: JSON.stringify(data)
         })
        if(session.ok){
-        const responseData = await session.json()
-        const accesstoken = responseData.data.accessToken
+        const userData = await session.json()
+        const accesstoken = userData.data.accessToken
         
         localStorage.setItem("accessToken", accesstoken)
-        dispatch(authlogin(responseData))
-        console.log(responseData)
+        
+        localStorage.setItem("userId",userData.data.user._id)
+        dispatch(authlogin(userData))
+        console.log(userData)
        }else{
         console.error('Login failed with status:', response.status);
        }

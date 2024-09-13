@@ -94,19 +94,19 @@ const updateTweet = asyncHandler(async(req, res)=>{
     if(!isValidObjectId(tweetId)){
         throw new ApiError(400, "Invalid Tweet Id")
     }
-    const {content} = req.body
+    const {content, tweetImage} = req.body
     if(content?.trim() === ""){
         throw new ApiError(400, "Content is required")
     }
    
     let tweetImageLocalPath = req.files?.tweetImage?.[0]?.path || ""
-    const tweetImage =  tweetImageLocalPath? await uploadOnCloudinary(tweetImageLocalPath) : ""
+    const tweetimage =  tweetImageLocalPath? await uploadOnCloudinary(tweetImageLocalPath) : ""
     const updatedTweet = await Tweet.findByIdAndUpdate(
         tweetId,
         {
             $set:{
                 content,
-                tweetImage: tweetImage?.url || ""
+                tweetImage: tweetimage?.url || tweetImage || ""
             }
         },
         {
@@ -230,6 +230,56 @@ const getFollowingTweets = asyncHandler(async(req, res)=>{
         new ApiResponse(200, tweets, "tweets fetched successfully")
     )
 })
+const getOwnerTweets = asyncHandler(async(req, res)=>{
+    const user = req.user
+    if(!isValidObjectId(user._id)){
+        throw new ApiError(400, "Invalid user Id")
+    }
+    const tweets = await Tweet.aggregate([
+        {
+            $match:{
+                owner: new mongoose.Types.ObjectId(user._id)
+            }
+        },
+        {
+            $lookup:{
+                from: "likes",
+                localField: "_id",
+                foreignField: "tweet",
+                as: "like"
+            }
+        },
+        {
+            $addFields:{
+                likeCheck:{
+                    $cond:{
+                        if:{$in:[user?._id, "$like.likedBy" ]},
+                        then: true,
+                        else: false
+                    }
+                }
+            }
+        },
+        {
+            $project:{
+                _id: 1,
+                content: 1,
+                tweetImage: 1,
+                avatar: 1,
+                username: 1,
+                likeCheck: 1
+            }
+        }
+    ])
+    if(!tweets.length){
+        throw new ApiError(200, "User has No Tweets")
+    }
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200, tweets, "Owner Tweets fetched successfully")
+    )
+})
 
 
 
@@ -240,6 +290,7 @@ export{
     updateTweet,
     deleteTweet,
     getAllTweets,
-    getFollowingTweets
+    getFollowingTweets,
+    getOwnerTweets
 
 }

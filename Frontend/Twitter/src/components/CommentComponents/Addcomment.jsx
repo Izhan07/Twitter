@@ -1,6 +1,6 @@
 import React from "react";
 import {useForm} from "react-hook-form"
-import Input from "./Input.jsx"
+import Input from "../Input.jsx"
 
 function PostComment({tweet, onCommentAdded}){
 

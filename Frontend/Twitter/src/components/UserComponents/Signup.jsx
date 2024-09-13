@@ -1,9 +1,9 @@
 import React from "react";
-import Input from "./Input.jsx";
+import Input from "../Input.jsx";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { login as authlogin } from "../store/auth.js";
+import { login as authlogin } from "../../store/auth.js";
 
 function Signup(){
     const {handleSubmit, register} = useForm()

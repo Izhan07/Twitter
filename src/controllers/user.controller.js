@@ -208,14 +208,21 @@ const getCurrentUser = asyncHandler(async(req, res)=>{
 
 const updateAccountDetails = asyncHandler(async(req, res)=>{
     const {fullname, email} = req.body
-    if(!fullname || !email){
+    if(!(fullname || email)){
         throw new ApiError(400, "All fields are required")
     }
-
+    const currntDetails = await User.findById(
+        req.user._id
+    )
+    const Email = email || currntDetails?.email
+    const FullName = fullname || currntDetails.fullname
     const user = await User.findByIdAndUpdate(
         req.user._id,
         {
-           $set: {email, fullname}
+           $set: {
+            fullname: FullName,
+            email: Email
+           }
         },
         {
             new: true
@@ -231,7 +238,7 @@ const updateAccountDetails = asyncHandler(async(req, res)=>{
 })
 
 const updateUserAvatar = asyncHandler(async(req, res)=>{
-    const avatarLocalPath = req.file?.path
+    const avatarLocalPath = req.files?.avatar[0].path
     if(!avatarLocalPath){
         throw new ApiError(400, "Avatar is missing")
     }
@@ -246,8 +253,8 @@ const updateUserAvatar = asyncHandler(async(req, res)=>{
         },
         {
             new: true
-        }.select("-password")
-    )
+        }
+    ).select("-password")
     return res
     .status(200)
     .json(new ApiResponse(
@@ -256,7 +263,7 @@ const updateUserAvatar = asyncHandler(async(req, res)=>{
 })
 
 const updateCoverImage = asyncHandler(async(req, res)=>{
-    const coverImageLocalPath = req.file?.path
+    const coverImageLocalPath = req.files?.coverimage[0]?.path
     if(!coverImageLocalPath){
         throw new ApiError(400, "CoverImage is missing")
     }
@@ -271,8 +278,8 @@ const updateCoverImage = asyncHandler(async(req, res)=>{
         },
         {
             new: true
-        }.select("-password")
-    )
+        }
+    ).select("-password")
     return res
     .status(200)
     .json(new ApiResponse(
@@ -349,7 +356,7 @@ const getUserCurrentProfile = asyncHandler(async(req, res)=>{
 })
 const searchUser = asyncHandler(async(req, res)=>{
     const {username} = req.body
-    console.log(username)
+   
     if(username === ""){
         throw new ApiError(404, "Username is required")
     }
