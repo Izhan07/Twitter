@@ -8,13 +8,12 @@ function GetUserProfile({user}){
     const [profile, setProfile] = useState()
     const Userprofile = async()=>{
         try {
-            console.log(user)
             const token = localStorage.getItem("accessToken")
             if(!token){
                 console.error("No token found in localstorage")
                 return;
             }
-            const response = await fetch(`http://localhost:8000/api/v1/users/c/${user.data.username}`,{
+            const response = await fetch(`http://localhost:8000/api/v1/users/c/${user}`,{
                 method:"GET",
                 headers:{
                     Authorization: `Bearer${token}`,
@@ -23,7 +22,6 @@ function GetUserProfile({user}){
             })
             if(response.ok){
                 const profile = await response.json()
-                console.log(profile)
                 setProfile(profile)
 
             }else{
@@ -41,8 +39,10 @@ function GetUserProfile({user}){
            {
             profile? <div>
                 <ProfileCont profile={profile}/> 
-               
-            </div> : <h1>Loading...</h1>
+                
+            </div> : <div className="w-full h-full flex items-center justify-center  bg-[#201f1f]">
+                <div className="w-32 h-32 border-t-4 border-[#494949] border-solid rounded-full animate-spin "></div>
+            </div>
            }
         </>
     )

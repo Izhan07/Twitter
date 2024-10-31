@@ -1,15 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, createContext} from "react";
 import Input from "../Input.jsx";
 import { useForm } from "react-hook-form";
-import GetUserProfile from "./GetUserProfile.jsx";
-import GetUsertweets from "./GetUserTweets.jsx";
-import GetUserSubscribers from "./GetUserSubscriber.jsx";
-import GetUserFollowing from "./getUserFollowing.jsx";
-
+import UserProfile from "../Pages/UserProfile.jsx";
+import { Link, useNavigate } from "react-router-dom";
+import Search from "../../img/search.png"
 function SearchUser(){
     const {handleSubmit, register} = useForm()
     const [user, setUser] = useState()
     const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
     const search = async(data)=>{
         if(loading) return;
         setLoading(true)
@@ -27,9 +26,9 @@ function SearchUser(){
                 body: JSON.stringify(data)
             })
             if(response.ok){
-                const user = await response.json()
-                setUser(user)
-                console.log(user)
+                const User = await response.json()
+                setUser(User.data)
+                
             }else{
                 console.error("No user found", response.statusText)
             }
@@ -41,12 +40,18 @@ function SearchUser(){
         }
 
     }
+     const data = async()=>{
+        navigate("/Userprofile", {state : {user : user}})
+     }
   
     
     return(
         <>
-        <form onSubmit={handleSubmit(search)} >
+        <div className="h-dvh w-full bg-[#201f1f] text-[#E0E0E0] px-2">
+        <form className=" py-2 px-1 flex items-center justify-between" onSubmit={handleSubmit(search)} >
             <Input
+            labelClass = "font-semibold text-xl"
+            className="w-[85%] mx-2 py-1 px-2 outline-none bg-[#494949] rounded-lg"
             label = "Search"
             type = "text"
             placeholder = "Search Username"
@@ -54,18 +59,19 @@ function SearchUser(){
                 required: true
             })}
             />
-            <button type="submit">search</button>
+            <button type="submit">
+                <img className="h-6" src={Search}/>
+            </button>
         </form>
-        <div>
+        <div className="bg-[#494949] w-full h-10 flex items-center px-2 rounded-lg">
             {
-                loading? (<p>searching</p>):
+                loading? (<p>searching...</p>):
                 user? <div>
-                    <GetUserProfile user={user}/>
-                  <GetUserFollowing user={user}/>
-                  
+                 <button onClick={data}>{user.username}</button>
                 </div> : 
-                <p>No user found</p>
+                <p></p>
             }
+        </div>
         </div>
         </>
     )
