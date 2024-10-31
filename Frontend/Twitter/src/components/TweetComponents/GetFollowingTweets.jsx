@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from "react";
 import { useSelector } from "react-redux";
 import TweetContainer from "./TweetContainer"
-
+import empty from "../../img/tweet.png"
 function GetFollowingTweets(){
     
     const [tweets, setTweets] = useState([])
-   
+   const [loading, setLoading] = useState(true)
 
     const followingTweets = async()=>{
       try {
+        setLoading(true)
           const token = localStorage.getItem("accessToken")
           if(!token){
               console.error("No tokenfound in localStorage")
@@ -19,7 +20,6 @@ function GetFollowingTweets(){
             console.error("No user Id Found")
             return;
           }
-          console.log(id)
           const response = await fetch(`http://localhost:8000/api/v1/tweets/fellowTweets/${id}`,{
               method: "GET",
               headers:{
@@ -28,9 +28,11 @@ function GetFollowingTweets(){
               }
           })
           if(response.ok){
+            setLoading(false)
               const tweet = await response.json()
               setTweets(tweet.data)
           }else{
+            setLoading(false)
               console.error("No following Tweets Found")
           }
       } catch (error) {
@@ -45,12 +47,21 @@ function GetFollowingTweets(){
 
     return(
         <>
-        {
-            tweets.length > 0 ? (
-                tweets.map((tweet, index)=> <div key={index}>
+       
+        { loading? 
+        (<div className="w-full h-full flex items-center justify-center  bg-[#201f1f]">
+         <div className="w-32 h-32 border-t-4 border-[#494949] border-solid rounded-full animate-spin "></div>
+         </div>) :
+            tweets.length > 0 ?
+         (
+                tweets.map((tweet, index)=> <div  key={index}>
                     <TweetContainer tweet={tweet}/>
                 </div>)
-            ) : <p>no tweets found</p>
+         ) 
+            : (<div className="flex flex-col items-center justify-center w-full h-full">
+                <img src={empty}/>
+                <p className="text-[#494949] ma:text-2xl text-center" >No Following Tweets Found</p>
+            </div>)
         }
         </>
     )

@@ -1,10 +1,29 @@
 import React, { useEffect, useState } from "react";
 import CommentContainer from "./CommentContainer.jsx";
-import PostComment from "./Addcomment.jsx";
+import { io } from "socket.io-client";
+let socket;
 
 
 function GetTweetComments({tweet}){
     const [Comments, setComments ] = useState([])
+    const userId = localStorage.getItem("userId");
+
+    useEffect(()=>{
+        socket = io("http://localhost:8000",{
+            withCredentials: true
+        });
+
+        socket.emit('joinRoom', {userId, tweetId: tweet._id})
+
+        socket.on('receiveComment',(comment)=>{
+            console.log(comment)
+            setComments((prevComments)=> [...prevComments, comment])
+        });
+
+        return()=>{
+            socket.disconnect();
+        }
+    },[userId])
     
     const commentTweets = async()=>{
         try {
@@ -33,19 +52,19 @@ function GetTweetComments({tweet}){
     useEffect(()=>{
         commentTweets()
     },[])
-    const handleNewComment = (newComment) => {
-        setComments((prevComments) => [...prevComments, newComment]); 
-      };
+    
     const renderComment = ()=>{
         return Comments.length > 0 ?Comments.map((comment, index)=> <div key={index}>
             <CommentContainer comment={comment}/>
 
-        </div>) : (<p>no comm</p>)
+        </div>) : (<p></p>)
     }
     return(
         <>
            {renderComment()}
-         <PostComment tweet={tweet} onCommentAdded={handleNewComment}/>
+        
+        
+    
         </>
     )
 }

@@ -1,8 +1,8 @@
 import React,{useState} from "react";
 
 function Tweetlike({tweet}){
+    
     const [liked, setLiked] = useState(tweet.liked)
-   
      const likeTweet = async()=>{
         
         try {

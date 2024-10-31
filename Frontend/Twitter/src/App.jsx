@@ -1,18 +1,51 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import {store} from "./store/store.js"
-import { Provider } from "react-redux";
-import {Login, SearchUser, UpdateCover,UpdateAvatar,UpdateAccountDetails, ChangePassword,GetlikedTweets } from "./components/index.js"
-
-
+import { Outlet } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login, logout } from "./store/auth.js";
+import { useEffect, useState } from "react";
+import {SideBar} from "./components/index.js"
+import { useSelector } from "react-redux";
 function App() {
-  return (
+    const [loading, setLoading] = useState(true)
+    const [user, setUser] = useState(false)
+    const dispatch = useDispatch()
+    const getUser = async()=>{
+      try {
+        const token = localStorage.getItem("accessToken")
+        if(!token){
+          console.error("No token found")
+        }
+        const response = await fetch(`http://localhost:8000/api/v1/users/currentUser`,{
+          method: "GET",
+          headers:{
+            Authorization: `Bearer${token}`,
+            "Content-Type": "application/json"
+          }
+        })
+        if(response.ok){
+          dispatch(login())
+          setLoading(false)
+          setUser(true)
+        }else{
+          dispatch(logout())
+          setLoading(false)
+          setUser(false)
+        }
+      } catch (error) {
+        console.error("Something went wrong while checking Authorization",error)
+      }
+    }
+    useEffect(()=>{
+       getUser()
+    },[])
+
+ 
+  return !loading? (
     <>
-      <Provider store={store}>
-      <Login/>
-     <GetlikedTweets/>
-      </Provider>
+   <div className="flex md:h-dvh h-[79%]   flex-col-reverse  relative md:flex md:static md:flex-row bg-[#201f1f] text-[#E0E0E0] ">
+   <Outlet/>
+   </div>
     </>
-  );
+  ) : null
 }
 
 export default App;

@@ -4,6 +4,7 @@ import { forwardRef } from 'react'
  function Input({
     type,
     className,
+    labelClass,
     label,
     ...props
  },ref){
@@ -11,12 +12,13 @@ import { forwardRef } from 'react'
 
     return(
         <>
-         {label && <label htmlFor={Id}>
+         {label && <label className={`${labelClass} `} htmlFor={Id}>
             {label}
             </label>}
             <input
             type={type}
-            className={`${className}`}
+            className={`${className}  autofill:bg-white
+            `}
             ref= {ref}
             id = {Id}
             {...props}
