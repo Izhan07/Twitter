@@ -17,6 +17,7 @@ const createTweet = asyncHandler(async(req, res)=>{
         throw new ApiError(400, "Invalid Id")
     }
     let tweetImageLocalPath = req.files?.tweetImage?.[0]?.path || "";
+    console.log(tweetImageLocalPath)
     const tweetImage = tweetImageLocalPath? await uploadOnCloudinary(tweetImageLocalPath) : "";
     const tweet = await Tweet.create({
         content,
@@ -57,7 +58,7 @@ const getUserTweets = asyncHandler(async(req, res)=>{
         },
         {
             $addFields:{
-                likeCheck:{
+                liked:{
                     $cond:{
                         if:{$in:[req.user?._id, "$like.likedBy"]},
                         then: true,
@@ -73,7 +74,7 @@ const getUserTweets = asyncHandler(async(req, res)=>{
                 tweetImage: 1,
                 avatar: 1,
                 username: 1,
-                likeCheck: 1,
+                liked: 1,
                
             }
         }
@@ -202,7 +203,7 @@ const getFollowingTweets = asyncHandler(async(req, res)=>{
         },
         {
             $addFields:{
-                likeCheck:{
+                liked:{
                     $cond:{
                         if: {$in: [req.user?._id, "$like.likedBy"]},
                         then: true,
@@ -217,7 +218,7 @@ const getFollowingTweets = asyncHandler(async(req, res)=>{
                 tweetImage: 1,
                 avatar: 1,
                 username: 1,
-                likeCheck: 1
+                liked: 1
             }
         }
     ])
@@ -251,7 +252,7 @@ const getOwnerTweets = asyncHandler(async(req, res)=>{
         },
         {
             $addFields:{
-                likeCheck:{
+                liked:{
                     $cond:{
                         if:{$in:[user?._id, "$like.likedBy" ]},
                         then: true,
@@ -267,7 +268,7 @@ const getOwnerTweets = asyncHandler(async(req, res)=>{
                 tweetImage: 1,
                 avatar: 1,
                 username: 1,
-                likeCheck: 1
+                liked: 1
             }
         }
     ])

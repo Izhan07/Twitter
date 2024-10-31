@@ -35,26 +35,7 @@ const toggleTweetLike = asyncHandler(async(req, res)=>{
   
   
 })
-/*
-const toggleTweetUnlike = asyncHandler(async(req, res)=>{
-    const {likeId} = req.params
-    if(!isValidObjectId(likeId)){
-        throw new ApiError(400, "Invalid like Id")
-    }
-    const like = await Like.findByIdAndDelete(
-        likeId
-    )
-    const unlike = await Like.findById(like._id)
-    if(unlike){
-        throw new ApiError(500, "Something went wrong while deleting tweet like")
-    }
-    return res
-    .status(200)
-    .json(
-        new ApiResponse(200, like, "Like deleted successfully")
-    )
-})
-    */
+
     
 
 const getLikedTweets = asyncHandler(async(req, res)=>{

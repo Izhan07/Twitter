@@ -51,6 +51,14 @@ const getTweetComments = asyncHandler(async(req, res)=>{
             }
         },
         {
+            $lookup:{
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "user"
+            }
+        },
+        {
             $addFields:{
                 checkLikes:{
                     $cond:{
@@ -61,14 +69,15 @@ const getTweetComments = asyncHandler(async(req, res)=>{
                 }
             }
         },
+       
         {
             $project:{
                 content: 1,
                 tweet: 1,
                 owner: 1,
+                checkLikes: 1,
                 avatar: 1,
-                username: 1,
-                checkLikes: 1
+                username: 1
             }
         }
     ])

@@ -50,13 +50,14 @@ const resgiterUser = asyncHandler( async ( req, res )=>{
    const createdUser = await User.findById(user._id).select(
     "-password -refreshToken"
    )
+   const accessToken =  await generateAccessTokenAndRefreshToken(user._id)
    
    if(!createdUser){
     throw new ApiError(500, "Something went wrong while registring User")
    }
 
    return res.status(201).json(
-    new ApiResponse(201, createdUser, "User registered Successfully")
+    new ApiResponse(201, {createdUser,accessToken}, "User registered Successfully")
    )
 
     

@@ -15,7 +15,7 @@ const getUserChannelSubscribers = asyncHandler(async (req, res, next) => {
          throw new ApiError(400, "Invalid Account ID");
      } 
  
-     // Fetch the user by accountId
+   
      const user = await User.findById(accountId);
  
      if (!user) {
@@ -36,14 +36,11 @@ const getUserChannelSubscribers = asyncHandler(async (req, res, next) => {
          }
      ]);
  
-     if (!subscribers.length) {
-         throw new ApiError(404, "No Subscribers Found");
-     }
+    
         
-         // Extract all subscriber IDs into an array
           const subscriberIds = [...new Set(subscribers.map((sub) => sub.subscriber))];
           
-         // Attach the array of subscriber IDs to the req object
+     
          req.subscribers = subscriberIds;
          next()
  
@@ -67,9 +64,7 @@ const getUserChannelSubscribers = asyncHandler(async (req, res, next) => {
             }
         }
     ])
-    if(!subscribedTo?.length){
-        throw new ApiError(400, "No Followers Found")
-    }
+   
     const followedId = [...new Set(subscribedTo.map((sub)=> sub.account))]
     req.followeds = followedId
     next()

@@ -64,7 +64,7 @@ const getUserSubscriber = asyncHandler(async(req, res)=>{
     }
    ])
    if(!subscriber?.length){
-    throw new ApiError(400, "No subscriber found")
+    return res.status(200).json(new ApiResponse(200, subscriber, "User have No followers"))
    }
    return res
    .status(200)
@@ -77,6 +77,7 @@ const getUserSubscriber = asyncHandler(async(req, res)=>{
 
 const getUserFollowings = asyncHandler(async(req, res)=>{
     const followeds = req.followeds
+   
     const followed = await User.aggregate([
         {
             $match:{
@@ -92,7 +93,7 @@ const getUserFollowings = asyncHandler(async(req, res)=>{
         }
     ])
     if(!followed.length){
-        throw new ApiError(404, "This Account has No Followings")
+       return res.status(200).json(new ApiResponse(200, followed, "User have No following"))
     }
 
     return res
