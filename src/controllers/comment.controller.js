@@ -69,6 +69,9 @@ const getTweetComments = asyncHandler(async(req, res)=>{
                 }
             }
         },
+        {
+            $unwind: "$user"
+        },
        
         {
             $project:{
@@ -76,8 +79,8 @@ const getTweetComments = asyncHandler(async(req, res)=>{
                 tweet: 1,
                 owner: 1,
                 checkLikes: 1,
-                avatar: 1,
-                username: 1
+                avatar: "$user.avatar",
+                username: "$user.username"
             }
         }
     ])

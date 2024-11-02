@@ -57,6 +57,17 @@ const getUserTweets = asyncHandler(async(req, res)=>{
             }
         },
         {
+            $lookup:{
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "user"
+            }
+        },
+        {
+            $unwind: "$user"
+        },
+        {
             $addFields:{
                 liked:{
                     $cond:{
@@ -72,16 +83,15 @@ const getUserTweets = asyncHandler(async(req, res)=>{
                 content: 1,
                 owner: 1,
                 tweetImage: 1,
-                avatar: 1,
-                username: 1,
+                avatar: "$user.avatar",
+                username: "$user.username",
                 liked: 1,
                
             }
         }
     ])
-    if(!tweets?.length){
-        throw new ApiError(400, "No Tweets Found")
-    }
+    
+    
     return res
     .status(200)
     .json(
@@ -149,18 +159,29 @@ const getAllTweets = asyncHandler(async(req, res)=>{
     const tweets = await Tweet.find(queryObject)
     .sort({createdAt: -1})
     .limit(parseInt(limit))
+    .select('-avatar -username')
     .lean();
 
+    const user = await User.find({
+        _id:{$in: tweets.map(tweet=> tweet.owner)}
+    }).select('avatar username').lean()
+    
     const usrLikes = await Like.find({
         likedBy: req.user?._id,
         tweet:{$in: tweets.map(tweet => tweet._id) }
     }).select("tweet").lean()
 
-    const likedTweetIds = new Set(usrLikes.map(like => like.tweet.toString()))
+    
+    const userObj = user.reduce((acc, user) => {
+        acc[user._id] = user;
+        return acc;
+    }, {});
 
+    const likedTweetIds = new Set(usrLikes.map(like => like.tweet.toString()))
     const tweetsWithLikedStatus = tweets.map(tweet => ({
         ...tweet,
-        liked: likedTweetIds.has(tweet._id.toString())
+        liked: likedTweetIds.has(tweet._id.toString()),
+       user: userObj[tweet.owner]
     })
     )
 
@@ -182,6 +203,17 @@ const getFollowingTweets = asyncHandler(async(req, res)=>{
             $match:{
                 owner: {$in: followeds}
             }
+        },
+        {
+            $lookup:{
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "user"
+            }
+        },
+        {
+            $unwind: "$user"
         },
         {
             $addFields: {
@@ -216,8 +248,8 @@ const getFollowingTweets = asyncHandler(async(req, res)=>{
             $project:{
                 content: 1,
                 tweetImage: 1,
-                avatar: 1,
-                username: 1,
+                avatar: "$user.avatar",
+                username: "$user.username",
                 liked: 1
             }
         }
@@ -251,6 +283,17 @@ const getOwnerTweets = asyncHandler(async(req, res)=>{
             }
         },
         {
+            $lookup:{
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "user"
+            }
+        },
+        {
+            $unwind: "$user"
+        },
+        {
             $addFields:{
                 liked:{
                     $cond:{
@@ -266,8 +309,8 @@ const getOwnerTweets = asyncHandler(async(req, res)=>{
                 _id: 1,
                 content: 1,
                 tweetImage: 1,
-                avatar: 1,
-                username: 1,
+                avatar: "$user.avatar",
+                username: "$user.username",
                 liked: 1
             }
         }

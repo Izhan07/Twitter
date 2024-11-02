@@ -15,14 +15,15 @@ function TweetContainer({tweet}){
       const closeCommentModal = () => {
         setIsCommentModalOpen(false);
       };
+      
     return(
         <>
         <div className=" w-[32rem] min-h-[25rem] border-2 border-[#494949]   bg-[#201f1f] text-[#E0E0E0] relative 
           max-[536px]:w-[17rem] px-1 
         ">
           <div className=" flex items-center p-2 gap-3 ">
-          <img className="h-12 w-12 rounded-full object-cover" src={tweet.avatar}/>
-          <h3 className="font-semibold">{tweet.username}</h3>
+          <img className="h-12 w-12 rounded-full object-cover" src={tweet.avatar || tweet.user.avatar}/>
+          <h3 className="font-semibold">{tweet.username || tweet.user.username}</h3>
           </div>
         {
             tweet.tweetImage? <div className="flex w-full flex-col items-end justify-center">

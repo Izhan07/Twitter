@@ -5,8 +5,8 @@ function GetUsertweets({user}){
     const [usertweets, setUserTweets] = useState([])
     const [loading, setLoading] = useState(true)
     const getTweets = async()=>{
-        try {
-            loading(true)
+        try { 
+            setLoading(true)
             const token = localStorage.getItem("accessToken")
             if(!token){
                 console.error("No token found in localStorage")
@@ -45,7 +45,7 @@ function GetUsertweets({user}){
             </div>)) : (
                 <div className="flex flex-col items-center justify-center w-full h-full">
                 <img src={empty}/>
-                <p className="text-[#494949] ma:text-2xl text-center" >No Following Tweets Found</p>
+                <p className="text-[#494949] ma:text-2xl text-center" >No  Tweets Found</p>
             </div>
             )
         }

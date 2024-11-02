@@ -37,6 +37,7 @@ function AllTweets() {
         const tweets = await response.json();
         setTweets((prevTweets) => [...prevTweets, ...tweets.data]);
         setLastTweetId(tweets.lastTweetId);
+        
       } else {
         console.error("Error fetching tweets:", response.status, response.statusText);
       }
