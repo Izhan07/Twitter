@@ -14,7 +14,7 @@ import AllTweets from "./TweetComponents/Getalltweets.jsx";
 import Addpost from "./TweetComponents/Addpost.jsx";
 import GetOwnerTweets from "./TweetComponents/OwnerTweets.jsx";
 import UpdateTweet from "./TweetComponents/UpdateTweet.jsx";
-import GetUserFollowing from "./UserComponents/getUserFollowing.jsx";
+import GetUserFollowing from "./UserComponents/GetUserFollowing.jsx";
 import GetUserSubscribers from "./UserComponents/GetUserSubscriber.jsx";
 import Logout from "./UserComponents/Logout.jsx";
 import Signup from "./UserComponents/Signup.jsx";
