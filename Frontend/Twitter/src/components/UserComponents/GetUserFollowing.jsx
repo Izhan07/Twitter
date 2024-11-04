@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from "react";
-import SubscriberCont from "./subscriberCont";
+import SubscriberCont from "./SubscriberCont.jsx";
 
 function GetUserFollowing({user}){
     const [Following, setFollowing] = useState([])
