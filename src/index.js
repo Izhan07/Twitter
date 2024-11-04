@@ -5,12 +5,19 @@ import dotenv from 'dotenv';
 import { app } from './app.js';
 import {Message} from "./models/message.models.js"
 import { Comment } from './models/comment.models.js';
-
+import path from "path"
+import express from "express"
 dotenv.config({
     path: './env'
 });
 
+const _dirname = path.resolve();
+
 const server = http.createServer(app);
+app.use(express.static(path.join(_dirname, "/Frontend/Twitter/dist")))
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(_dirname, "Frontend", "Twitter", "dist", "index.html"))
+})
 const io = new Server(server, {
     cors: {
         origin: "http://localhost:5173",

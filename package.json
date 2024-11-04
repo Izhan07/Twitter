@@ -4,7 +4,9 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js "
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js ",
+    "build": "npm install && npm install --prefix Frontend/Twitter && npm run build --prefix Frontend/Twitter",
+    "start": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
   },
   "keywords": [
     "javascript",
