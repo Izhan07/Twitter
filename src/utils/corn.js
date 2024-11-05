@@ -1,3 +1,4 @@
+/*
 import cron from "node-cron"
 import { Story } from "../models/story.models.js"
 import {v2 as Cloudinary} from "cloudinary"
@@ -35,3 +36,4 @@ cron.schedule('0 * * * *', deleteExpiredStories);
 
 
 deleteExpiredStories();
+*/
