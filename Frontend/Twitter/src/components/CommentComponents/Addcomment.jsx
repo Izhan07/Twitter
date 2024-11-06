@@ -16,7 +16,7 @@ function PostComment({tweet}){
           if(!token){
             console.error("No token found")
           }
-          const response = await fetch(`http://localhost:8000/api/v1/users/currentUser`,{
+          const response = await fetch(`https://twitter-kbki.onrender.com/api/v1/users/currentUser`,{
             method: "GET",
             headers:{
               Authorization: `Bearer${token}`,
@@ -36,7 +36,7 @@ function PostComment({tweet}){
       },[])
 
     useEffect(()=>{
-        socket = io("http://localhost:8000", {
+        socket = io("https://twitter-kbki.onrender.com", {
             withCredentials: true,
         })
 

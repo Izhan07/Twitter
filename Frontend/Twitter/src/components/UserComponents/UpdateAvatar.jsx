@@ -19,7 +19,7 @@ function UpdateAvatar(){
                 formData.append("avatar", data.avatar[0])
              }
            
-            const response = await fetch(`http://localhost:8000/api/v1/users/AvatarUpdate`, {
+            const response = await fetch(`https://twitter-kbki.onrender.com/api/v1/users/AvatarUpdate`, {
                 method: "PATCH",
                 headers:{
                     Authorization: `Bearer${token}`

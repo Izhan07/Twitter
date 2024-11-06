@@ -13,7 +13,7 @@ function MessagedProfiles(){
                 console.error("No token found")
                 return
             }
-            const response = await fetch(`http://localhost:8000/api/v1/message/profile/users`,{
+            const response = await fetch(`https://twitter-kbki.onrender.com/api/v1/message/profile/users`,{
                 method: "GET",
                 headers:{
                     Authorization: `Bearer${token}`,

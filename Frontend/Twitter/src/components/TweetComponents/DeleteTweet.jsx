@@ -10,7 +10,7 @@ function DeleteTweet({tweet}){
             if(!token){
                 console.error("No token found in localStorage")
             }
-            const response = await fetch(`http://localhost:8000/api/v1/tweets/del/${tweet._id}`,{
+            const response = await fetch(`https://twitter-kbki.onrender.com/api/v1/tweets/del/${tweet._id}`,{
                 method: "DELETE",
                 headers:{
                     Authorization: `Bearer${token}`

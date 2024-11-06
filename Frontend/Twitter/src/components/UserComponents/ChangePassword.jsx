@@ -14,7 +14,7 @@ function ChangePassword(){
                 console.error("No token found in localStorage")
                 return;
             }
-            const response = await fetch(`http://localhost:8000/api/v1/users/changePassword`,{
+            const response = await fetch(`https://twitter-kbki.onrender.com/api/v1/users/changePassword`,{
                 method: "PATCH",
                 headers:{
                     Authorization: `Bearer${token}`,

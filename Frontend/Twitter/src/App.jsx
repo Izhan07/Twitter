@@ -14,7 +14,7 @@ function App() {
         if(!token){
           console.error("No token found")
         }
-        const response = await fetch(`http://localhost:8000/api/v1/users/currentUser`,{
+        const response = await fetch(`https://twitter-kbki.onrender.com/api/v1/users/currentUser`,{
           method: "GET",
           headers:{
             Authorization: `Bearer${token}`,

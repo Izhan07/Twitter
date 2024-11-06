@@ -13,7 +13,7 @@ function Chats() {
   
 
   useEffect(() => {
-    socket = io("http://localhost:8000", {
+    socket = io("https://twitter-kbki.onrender.com", {
       withCredentials: true,
     });
 
@@ -39,7 +39,7 @@ function Chats() {
        
        
         
-        const response = await fetch(`http://localhost:8000/api/v1/message/${user.user._id}`,{
+        const response = await fetch(`https://twitter-kbki.onrender.com/api/v1/message/${user.user._id}`,{
             method: "GET",
             headers:{
                 Authorization: `Bearer${token}`,

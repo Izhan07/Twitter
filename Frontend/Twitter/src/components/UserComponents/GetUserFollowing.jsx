@@ -12,7 +12,7 @@ function GetUserFollowing({user}){
                 console.error("No tokenfound in localstorage")
                 return;
             }
-            const response = await fetch(`http://localhost:8000/api/v1/subs/f/${user.user.data._id}`, {
+            const response = await fetch(`https://twitter-kbki.onrender.com/api/v1/subs/f/${user.user.data._id}`, {
                 method: "GET",
                 headers:{
                     Authorization: `Bearer${token}`,

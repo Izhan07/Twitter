@@ -10,7 +10,7 @@ function SendMessage({ user }) {
 
  
   useEffect(() => {
-    socket = io("http://localhost:8000", {
+    socket = io("https://twitter-kbki.onrender.com", {
       withCredentials: true,
     });
 

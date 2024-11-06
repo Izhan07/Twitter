@@ -14,7 +14,7 @@ import logo from "../../img/twitter.png"
    const navigate = useNavigate()
     const login = async(data)=>{
        try {
-        const session = await fetch(`http://localhost:8000/api/v1/users/login`,{
+        const session = await fetch(`https://twitter-kbki.onrender.com/api/v1/users/login`,{
          method: "POST",
          headers: {
              "Content-Type": "application/json",

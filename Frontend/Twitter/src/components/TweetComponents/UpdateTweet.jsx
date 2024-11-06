@@ -26,7 +26,7 @@ function UpdateTweet({tweet}){
         } else{
             formData.append("tweetImage", tweet.tweetImage);
         }
-            const response = await fetch(`http://localhost:8000/api/v1/tweets/${tweet._id}`,{
+            const response = await fetch(`https://twitter-kbki.onrender.com/api/v1/tweets/${tweet._id}`,{
                 method: "PATCH",
                 headers:{
                     Authorization: `Bearer${token}`,

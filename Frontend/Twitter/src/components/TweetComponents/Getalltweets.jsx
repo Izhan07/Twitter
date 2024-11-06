@@ -22,8 +22,8 @@ function AllTweets() {
       }
 
       const url = initialLoad
-        ? `http://localhost:8000/api/v1/tweets/tweets?limit=10`
-        : `http://localhost:8000/api/v1/tweets/tweets?limit=10${lastTweetId || ""}`;
+        ? `https://twitter-kbki.onrender.com/api/v1/tweets/tweets?limit=10`
+        : `https://twitter-kbki.onrender.com/api/v1/tweets/tweets?limit=10${lastTweetId || ""}`;
 
       const response = await fetch(url, {
         method: "GET",

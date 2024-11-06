@@ -12,7 +12,7 @@ function GetUsertweets({user}){
                 console.error("No token found in localStorage")
                 return;
             }
-            const response = await fetch(`http://localhost:8000/api/v1/tweets/user/${user}`,{
+            const response = await fetch(`https://twitter-kbki.onrender.com/api/v1/tweets/user/${user}`,{
                 method: "GET",
                 headers:{
                     Authorization: `Bearer${token}`,

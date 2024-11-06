@@ -13,7 +13,7 @@ function GetUserProfile({user}){
                 console.error("No token found in localstorage")
                 return;
             }
-            const response = await fetch(`http://localhost:8000/api/v1/users/c/${user}`,{
+            const response = await fetch(`https://twitter-kbki.onrender.com/api/v1/users/c/${user}`,{
                 method:"GET",
                 headers:{
                     Authorization: `Bearer${token}`,

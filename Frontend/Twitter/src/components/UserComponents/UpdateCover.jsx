@@ -20,7 +20,7 @@ function UpdateCover() {
       }
 
       const response = await fetch(
-        `http://localhost:8000/api/v1/users/CoverUpdate`,
+        `https://twitter-kbki.onrender.com/api/v1/users/CoverUpdate`,
         {
           method: "PATCH",
           headers: {

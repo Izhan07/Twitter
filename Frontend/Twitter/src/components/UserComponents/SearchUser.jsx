@@ -17,7 +17,7 @@ function SearchUser(){
             if(!token){
                 console.error("No token found in localStorage")
             }
-            const response = await fetch(`http://localhost:8000/api/v1/users/searchUser`, {
+            const response = await fetch(`https://twitter-kbki.onrender.com/api/v1/users/searchUser`, {
                 method: "POST",
                 headers:{
                     Authorization: `Bearer${token}`,

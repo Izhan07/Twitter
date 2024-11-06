@@ -21,7 +21,7 @@ function Addpost(){
             formData.append("tweetImage", data.tweetImage[0])
         }
 
-          const response = await fetch(`http://localhost:8000/api/v1/tweets/`,{
+          const response = await fetch(`https://twitter-kbki.onrender.com/api/v1/tweets/`,{
               method: "POST",
               headers:{
                 Authorization: `Bearer${token}`,

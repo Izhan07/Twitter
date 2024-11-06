@@ -21,7 +21,7 @@ function Signup(){
         if(data.coverimage){
           formData.append("coverimage", data.coverimage[0])
         }
-         const response = await fetch(`http://localhost:8000/api/v1/users/register`, {
+         const response = await fetch(`https://twitter-kbki.onrender.com/api/v1/users/register`, {
              method: "POST",
            
              body: formData

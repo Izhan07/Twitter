@@ -14,7 +14,7 @@ function GetlikedTweets(){
                 console.error("No token found in localStorage")
                 return;
             }
-            const response = await fetch(`http://localhost:8000/api/v1/likes/tweets`, {
+            const response = await fetch(`https://twitter-kbki.onrender.com/api/v1/likes/tweets`, {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer${token}`,

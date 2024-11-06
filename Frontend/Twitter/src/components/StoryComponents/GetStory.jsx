@@ -10,7 +10,7 @@ function GetStory(){
             console.error("No token found in lcalstorage")
             return;
         }
-        const response = await fetch(`http://localhost:8000/api/v1/story/get`,{
+        const response = await fetch(`https://twitter-kbki.onrender.com/api/v1/story/get`,{
             method: "GET",
             headers: {
                 Authorization: `Bearer${token}`,
