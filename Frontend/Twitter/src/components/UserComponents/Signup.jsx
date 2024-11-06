@@ -32,7 +32,7 @@ function Signup(){
             localStorage.setItem("userId",userData.data.createdUser._id)
             localStorage.setItem("username",userData.data.createdUser.username)
             dispatch(authlogin(userData))
-            console.log(userData)
+            
             navigate("/")
          }else{
             console.error("Signup failed error message:", response.message)

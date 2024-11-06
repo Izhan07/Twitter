@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
         const sendedMessage = await Message.findById(message._id);
 
         if (sendedMessage) {
-            console.log(sendedMessage)
+          
             io.to(reciverId).emit('receiveMessage', sendedMessage);
             io.to(ownerId).emit('receiveMessage', sendedMessage); 
         }

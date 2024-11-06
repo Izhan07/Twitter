@@ -69,12 +69,25 @@ const getMessagedTo = asyncHandler(async(req, res)=>{
     const profiles = await Message.aggregate([
         {
             $match:{
-                owner: new mongoose.Types.ObjectId(req.user?._id)
+                $or:[
+                    {
+                        owner: new mongoose.Types.ObjectId(req.user?._id)
+                    },
+                    {
+                        reciver: new mongoose.Types.ObjectId(req.user?._id)
+                    }
+                   ]
             }
         },
         {
-            $group:{
-                _id: "$reciver"
+            $group: {
+                _id: {
+                    $cond: {
+                        if: { $ne: ["$owner", req.user?._id] },
+                        then: "$owner",
+                        else: "$reciver"
+                    }
+                }
             }
         },
         {

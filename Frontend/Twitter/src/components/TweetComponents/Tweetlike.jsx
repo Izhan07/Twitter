@@ -21,7 +21,7 @@ function Tweetlike({tweet}){
              if(response.ok){
                  const like = await response.json()
                  setLiked(!liked)
-                 console.log(like)
+                
              }else{
                  console.error("like tweet failed", response.message)
      

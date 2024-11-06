@@ -14,7 +14,7 @@ function UpdateTweet({tweet}){
                 console.error("No token found in localStorage")
                 return;
             }
-            console.log(tweet.tweetImage)
+           
             const formData = new FormData()
           if(data.content){
             formData.append("content", data.content)

@@ -24,7 +24,7 @@ function Logout(){
           })
           if(response.ok){
             const res = await response.json()
-            console.log(res)
+            
               dispatch(authLogout())
               localStorage.removeItem("accessToken")
               localStorage.removeItem("userId")

@@ -24,7 +24,7 @@ import logo from "../../img/twitter.png"
        if(session.ok){
         const userData = await session.json()
         const accesstoken = userData.data.accessToken
-        console.log(accesstoken)
+        
         localStorage.setItem("accessToken", accesstoken)
         
         localStorage.setItem("userId",userData.data.user._id)

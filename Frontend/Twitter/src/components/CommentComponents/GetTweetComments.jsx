@@ -16,7 +16,7 @@ function GetTweetComments({tweet}){
         socket.emit('joinRoom', {userId, tweetId: tweet._id})
 
         socket.on('receiveComment',(comment)=>{
-            console.log(comment)
+           
             setComments((prevComments)=> [...prevComments, comment])
         });
 

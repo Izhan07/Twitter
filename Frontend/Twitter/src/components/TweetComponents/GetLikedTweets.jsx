@@ -41,7 +41,7 @@ function GetlikedTweets(){
         {
             likedTweets.length > 0 ? (
                 likedTweets.map((tweet,index)=> <div key={index}>
-                {console.log(tweet)}
+               
                 </div>)
             ) : <div className="w-full h-full flex items-center justify-center  bg-[#201f1f]">
             <div className="w-32 h-32 border-t-4 border-[#494949] border-solid rounded-full animate-spin "></div>
